@@ -13,7 +13,9 @@ const {
   COINMARKETCAP_URL, 
   COINMARKETCAP_HEADER_KEY, 
   COINMARKETCAP_API_KEY,
-  COINGECKO_URL 
+  COINGECKO_URL,
+  NEWSDATAIO_API_URL,
+  NEWSDATAIO_API_KEY 
 } = process.env
 
 const getRange = require('../../utils/getRange')
@@ -99,8 +101,14 @@ const resolvers = {
         volume_24h: priceData[i].volume_24h
       }))
       return resultsWithPriceData;
+    },
+    news: async () => {
+      return axios.get(`${NEWSDATAIO_API_URL}${NEWSDATAIO_API_KEY}&q=cryptocurrency&country=us&language=en`)
+        .then(results => results.data.results)
     }
   },
 }
 
 module.exports = resolvers;
+
+

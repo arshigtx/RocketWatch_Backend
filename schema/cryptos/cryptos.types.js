@@ -6,6 +6,7 @@ const typeDefs = gql`
     metaData(slugs: [String] ): [CryptoMetaData],
     chartData(slugs: [String], range: String): [CryptoChartData],
     search(query: String): [SearchResults],
+    news: [CryptoNews]
   }
 
   type CryptoData {
@@ -50,6 +51,13 @@ const typeDefs = gql`
     price: Float,
     percent_change_24h: Float,
     volume_24h: Float,      
+  }
+
+  type CryptoNews {
+    title: String,
+    pubDate: String,
+    source_id: String,
+    link: String,
   }
 
   `
