@@ -22,6 +22,102 @@ const coinNamePairs = [
   {
     slug: 'polygon',
     newSlug: 'matic-network'
+  },
+  {
+    slug: 'multi-collateral-dai',
+    newSlug: 'dai'
+  },
+  {
+    slug: 'elrond-egld',
+    newSlug: 'elrond-erd-2'
+  },
+  {
+    slug: 'theta',
+    newSlug: 'theta-token'
+  },
+  {
+    slug: 'near-protocol',
+    newSlug: 'near'
+  },
+  {
+    slug: 'unus-sed-leo',
+    newSlug: 'leo-token'
+  },
+  {
+    slug: 'klaytn',
+    newSlug: 'klay-token'
+  },
+  {
+    slug: 'stacks',
+    newSlug: 'blockstack'
+  },
+  {
+    slug: 'pancakeswap',
+    newSlug: 'pancakeswap-token'
+  },
+  {
+    slug: 'bittorrent',
+    newSlug: 'bittorrent-2'
+  },
+  {
+    slug: 'bitcoin-sv',
+    newSlug: 'bitcoin-cash-sv'
+  },
+  {
+    slug: 'enjin-coin',
+    newSlug: 'enjincoin'
+  },
+  {
+    slug: 'quant',
+    newSlug: 'quant-network'
+  },
+  {
+    slug: 'amp',
+    newSlug: 'amp-token'
+  },
+  {
+    slug: 'kucoin-token',
+    newSlug: 'amp-token'
+  },
+  {
+    slug: 'holo',
+    newSlug: 'holotoken'
+  },
+  {
+    slug: 'compound',
+    newSlug: 'compound-governance-token'
+  },
+  {
+    slug: 'trueusd',
+    newSlug: 'true-usd'
+  },
+  {
+    slug: 'mina',
+    newSlug: 'mina-protocol'
+  },
+  {
+    slug: 'hedera',
+    newSlug: 'hedera'
+  },
+  {
+    slug: 'hedera',
+    newSlug: 'hedera'
+  },
+  {
+    slug: 'hedera',
+    newSlug: 'hedera'
+  },
+  {
+    slug: 'hedera',
+    newSlug: 'hedera'
+  },
+  {
+    slug: 'sushiswap',
+    newSlug: 'sushi',
+  },
+  {
+    slug: 'rally',
+    newSlug: 'rally-2'
   }
 ]
 
@@ -38,46 +134,6 @@ const replaceSlug = name => {
 module.exports = replaceSlug
 
 const fix =  [
-  "multi-collateral-dai",
-  "elrond-egld",
-  "hedera",
-  "theta",
-  "near-protocol",
-  "unus-sed-leo",
-  "klaytn",
-  "stacks",
-  "pancakeswap",
-  "bittorrent",
-  "kusama",
-  "ecash",
-  "zcash",
-  "bitcoin-sv",
-  "enjin-coin",
-  "harmony",
-  "quant",
-  "amp",
-  "thorchain",
-  "neo",
-  "kadena",
-  "waves",
-  "chiliz",
-  "kucoin-token",
-  "holo",
-  "curve-dao-token",
-  "basic-attention-token",
-  "arweave",
-  "celo",
-  "okb",
-  "dash",
-  "theta-fuel",
-  "huobi-token",
-  "compound",
-  "trueusd",
-  "nexo",
-  "decred",
-  "nem",
-  "iotex",
-  "mina",
   "voyager-token",
   "immutable-x",
   "qtum",
@@ -208,7 +264,6 @@ const fix =  [
   "ethereum-name-service",
   "counos-x",
   "mobilecoin",
-  "rally",
   "render-token",
   "safemoon",
   "nxm",

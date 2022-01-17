@@ -1,9 +1,11 @@
 const formatChartData = data => {
-  const formattedData = data.map((item) => ({
-    time: item[0],
-    price: item[1]
-  }));
-  return formattedData;
+  const time = [];
+  const price = [];
+  data.forEach((item) => {
+    time.push(item[0]);
+    price.push(item[1])
+  });
+  return {time: [...time], price: [...price]};
 }
 
 module.exports = formatChartData
