@@ -16,7 +16,7 @@ const coinNamePairs = [
     newSlug: 'avalanche-2'
   },
   {
-    slug: "crypto-com",
+    slug: "crypto-com-coin",
     newSlug: "crypto-com-chain"
   },
   {
@@ -32,7 +32,7 @@ const coinNamePairs = [
     newSlug: 'elrond-erd-2'
   },
   {
-    slug: 'theta',
+    slug: 'theta-network',
     newSlug: 'theta-token'
   },
   {
@@ -57,7 +57,11 @@ const coinNamePairs = [
   },
   {
     slug: 'bittorrent',
-    newSlug: 'bittorrent-2'
+    newSlug: 'bittorrent-old'
+  },
+  {
+    slug: 'bittorrent-new',
+    newSlug: 'bittorrent'
   },
   {
     slug: 'bitcoin-sv',
@@ -97,27 +101,19 @@ const coinNamePairs = [
   },
   {
     slug: 'hedera',
-    newSlug: 'hedera'
-  },
-  {
-    slug: 'hedera',
-    newSlug: 'hedera'
-  },
-  {
-    slug: 'hedera',
-    newSlug: 'hedera'
-  },
-  {
-    slug: 'hedera',
-    newSlug: 'hedera'
-  },
-  {
-    slug: 'sushiswap',
-    newSlug: 'sushi',
+    newSlug: 'hedera-hashgraph'
   },
   {
     slug: 'rally',
     newSlug: 'rally-2'
+  },
+  {
+    slug: 'xinfin',
+    newSlug: 'xdce-crowd-sale'
+  },
+  {
+    slug: 'toncoin',
+    newSlug: 'the-open-network'
   }
 ]
 
@@ -265,7 +261,6 @@ const fix =  [
   "counos-x",
   "mobilecoin",
   "render-token",
-  "safemoon",
   "nxm",
   "illuvium",
   "convex-finance",

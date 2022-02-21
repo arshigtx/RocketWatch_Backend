@@ -2,12 +2,12 @@ const gql = require('graphql-tag')
 
 const typeDefs = gql`
   type Query {
-    getTopWinnersAndLosersList(limit: Int!, sortDir: String!, includeChartData: Boolean, range: String): [CryptoData],
-    getCryptoData(slugs: [String]!, includeChartData: Boolean, range: String): [CryptoData],
-    allCryptoListOffset(limit: Int!, offset: Int!, includeChartData: Boolean, range: String): [CryptoData],
-    search(query: String!): [CryptoData],
-    chartData(slugs: [String]!, range: String!): [CryptoChartData],
-    news: [CryptoNews]
+    getTopWinnersAndLosersList(limit: Int!, sortDir: String!, currency: String!, includeChartData: Boolean, range: String): [CryptoData],
+    getCryptoData(slugs: [String]!, currency: String!, includeChartData: Boolean, range: String): [CryptoData],
+    allCryptoListOffset(limit: Int!, offset: Int!, currency: String!, includeChartData: Boolean, range: String): [CryptoData],
+    search(query: String!, currency: String!,): [CryptoData],
+    chartData(slugs: [String]!, range: String!, currency: String!): [CryptoChartData],
+    news: [CryptoNews],
   }
 
   type CryptoData {
@@ -43,7 +43,6 @@ const typeDefs = gql`
     source_id: String,
     link: String,
   }
-
   `
   module.exports = typeDefs
 

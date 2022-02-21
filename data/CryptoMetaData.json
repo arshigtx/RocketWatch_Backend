@@ -5556,5 +5556,16 @@
         "https://crypto.com/"
      ],
      "description":"MCO (MCO) is a cryptocurrency and operates on the Ethereum platform. MCO has a current supply of 31,587,682.363206 with 15,793,831.094963 in circulation. The last known price of MCO is 17.17149562 USD and is up 5.33 over the last 24 hours. It is currently trading on 10 active market(s) with $919,239.43 traded over the last 24 hours. More information can be found at https://crypto.com/."
+  },
+  {
+     "id":16086,
+     "name":"BitTorrent (new)",
+     "symbol":"BTT",
+     "slug":"bittorrent-new",
+     "logo":"https://s2.coinmarketcap.com/static/img/coins/64x64/3718.png",
+     "urls":[
+      "https://www.bittorrent.com/btt/."
+     ],
+     "description":"BitTorrent (new) (BTT) is a cryptocurrency and operates on the Tron20 platform. BitTorrent (new) has a current supply of 990,000,000,000,000 with 932,497,500,000,000 in circulation. The last known price of BitTorrent (new) is 0.00000252 USD and is down -0.23 over the last 24 hours. It is currently trading on 10 active market(s) with $12,300,977.86 traded over the last 24 hours. More information can be found at https://www.bittorrent.com/btt/."
   }
 ]

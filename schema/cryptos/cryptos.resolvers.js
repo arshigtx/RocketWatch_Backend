@@ -16,7 +16,9 @@ const {
   COINMARKETCAP_API_KEY,
   COINGECKO_URL,
   NEWSDATAIO_API_URL,
-  NEWSDATAIO_API_KEY 
+  NEWSDATAIO_API_KEY,
+  EXCHANGERATE_API_URL,
+  EXCHANGERATE_API_KEY 
 } = process.env
 
 const getRange = require('../../utils/getRange')
@@ -26,9 +28,9 @@ const mergeArrs = require('../../utils/mergeArrays');
 
 const resolvers = {
   Query: {
-    getTopWinnersAndLosersList: async (parent, { limit, sortDir, includeChartData, range }) => {
+    getTopWinnersAndLosersList: async (parent, { limit, sortDir, currency, includeChartData, range }) => {
 
-      const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/listings/latest?limit=${limit}&sort=percent_change_24h&sort_dir=${sortDir}&market_cap_min=750000000`, {
+      const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/listings/latest?limit=${limit}&convert=${currency}&sort=percent_change_24h&sort_dir=${sortDir}&market_cap_min=750000000`, {
         headers: {
           [COINMARKETCAP_HEADER_KEY]: COINMARKETCAP_API_KEY
         }
@@ -38,10 +40,10 @@ const resolvers = {
           name: item.name,
           symbol: item.symbol,
           slug: item.slug,
-          price: item.quote.USD.price,
-          percent_change_24h: item.quote.USD.percent_change_24h,
-          volume_24h: item.quote.USD.volume_24h,
-          direction: item.quote.USD.percent_change_24h >= 0 ? 'up' : 'down',
+          price: item.quote[currency].price,
+          percent_change_24h: item.quote[currency].percent_change_24h,
+          volume_24h: item.quote[currency].volume_24h,
+          direction: item.quote[currency].percent_change_24h >= 0 ? 'up' : 'down',
         })))
         .catch(error => console.log(error));
 
@@ -67,7 +69,7 @@ const resolvers = {
   
         for await (let slug of slugs) {
           let newSlug = replaceSlug(slug);
-          const chartData = await axios.get(`${COINGECKO_URL}/coins/${newSlug}/market_chart/range?vs_currency=usd&from=${start}&to=${end}`)
+          const chartData = await axios.get(`${COINGECKO_URL}/coins/${newSlug}/market_chart/range?vs_currency=${currency}&from=${start}&to=${end}`)
             .then(res => res.data.prices)
             .then(data => formatChartData(data))
             .catch(error => console.log(error))
@@ -88,9 +90,9 @@ const resolvers = {
 
       }
     },
-    getCryptoData: async (parent, { slugs, includeChartData, range }) => {
+    getCryptoData: async (parent, { slugs, currency, includeChartData, range }) => {
 
-      const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/quotes/latest?slug=${slugs}`, {
+      const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/quotes/latest?slug=${slugs}&convert=${currency}`, {
         headers: {
           [COINMARKETCAP_HEADER_KEY]: COINMARKETCAP_API_KEY
         }
@@ -101,10 +103,10 @@ const resolvers = {
           name: data[key].name,
           symbol: data[key].symbol,
           slug: data[key].slug,
-          price: data[key].quote.USD.price,
-          percent_change_24h: data[key].quote.USD.percent_change_24h,
-          volume_24h: data[key].quote.USD.volume_24h,
-          direction: data[key].quote.USD.percent_change_24h >= 0 ? 'up' : 'down'
+          price: data[key].quote[currency].price,
+          percent_change_24h: data[key].quote[currency].percent_change_24h,
+          volume_24h: data[key].quote[currency].volume_24h,
+          direction: data[key].quote[currency].percent_change_24h >= 0 ? 'up' : 'down'
         })));
 
       const metadata = [];
@@ -129,7 +131,7 @@ const resolvers = {
   
         for await (let slug of slugs) {
           let newSlug = replaceSlug(slug);
-          const chartData = await axios.get(`${COINGECKO_URL}/coins/${newSlug}/market_chart/range?vs_currency=usd&from=${start}&to=${end}`)
+          const chartData = await axios.get(`${COINGECKO_URL}/coins/${newSlug}/market_chart/range?vs_currency=${currency}&from=${start}&to=${end}`)
             .then(res => res.data.prices)
             .then(data => formatChartData(data))
             .catch(error => console.log(error))
@@ -151,12 +153,12 @@ const resolvers = {
       }
 
     },
-    allCryptoListOffset: async (parent, { limit, offset }) => {
+    allCryptoListOffset: async (parent, { limit, offset, currency }) => {
 
       const cryptosToGet = [...localMetaData].slice(offset, offset+limit);
       const slugs = cryptosToGet.map(item => item.slug);
 
-      const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/quotes/latest?slug=${slugs}`, {
+      const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/quotes/latest?slug=${slugs}&convert=${currency}`, {
         headers: {
           [COINMARKETCAP_HEADER_KEY]: COINMARKETCAP_API_KEY
         }
@@ -164,10 +166,10 @@ const resolvers = {
       .then(res => res.data.data)
         .then(data => slugs.map(slug => data[Object.keys(data).find((key) => data[key].slug === slug)]))
         .then(data => Object.keys(data).map((key) => ({
-          price: data[key].quote.USD.price,
-          percent_change_24h: data[key].quote.USD.percent_change_24h,
-          volume_24h: data[key].quote.USD.volume_24h,
-          direction: data[key].quote.USD.percent_change_24h >= 0 ? 'up' : 'down'
+          price: data[key].quote[currency].price,
+          percent_change_24h: data[key].quote[currency].percent_change_24h,
+          volume_24h: data[key].quote[currency].volume_24h,
+          direction: data[key].quote[currency].percent_change_24h >= 0 ? 'up' : 'down'
         })))
       .catch(err => console.log(err))
 
@@ -189,14 +191,14 @@ const resolvers = {
       return pricedataAndMetadata;
 
     },
-    search: async (parent, { query }) => {
+    search: async (parent, { query, currency }) => {
 
       const results = [...localMetaData].filter(item => item.name.startsWith(query) || item.symbol.startsWith(query.toUpperCase()));
       const slugs = results.map(result => result.slug)
       
       if (results.length > 0) {
 
-        const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/quotes/latest?slug=${slugs}`, {
+        const pricedata = await axios.get(`${COINMARKETCAP_URL}/cryptocurrency/quotes/latest?slug=${slugs}&convert=${currency}`, {
           headers: {
             [COINMARKETCAP_HEADER_KEY]: COINMARKETCAP_API_KEY
           }
@@ -204,10 +206,10 @@ const resolvers = {
           .then(res => res.data.data)
           .then(data => slugs.map(slug => data[Object.keys(data).find((key) => data[key].slug === slug)]))
           .then(data => Object.keys(data).map((key) => ({
-            price: data[key].quote.USD.price,
-            percent_change_24h: data[key].quote.USD.percent_change_24h,
-            volume_24h: data[key].quote.USD.volume_24h,
-            direction: data[key].quote.USD.percent_change_24h >= 0 ? 'up' : 'down'
+            price: data[key].quote[currency].price,
+            percent_change_24h: data[key].quote[currency].percent_change_24h,
+            volume_24h: data[key].quote[currency].volume_24h,
+            direction: data[key].quote[currency].percent_change_24h >= 0 ? 'up' : 'down'
           })))
         .catch(err => console.log(err))
 
@@ -231,14 +233,14 @@ const resolvers = {
 
       } 
     },
-    chartData: async (parent, { slugs, range }) => {
+    chartData: async (parent, { slugs, range, currency }) => {
 
       const { start, end } = getRange(range);
       const allChartData = [];
 
       for await (let slug of slugs) {
         let newSlug = replaceSlug(slug);
-        const chartData = await axios.get(`${COINGECKO_URL}/coins/${newSlug}/market_chart/range?vs_currency=usd&from=${start}&to=${end}`)
+        const chartData = await axios.get(`${COINGECKO_URL}/coins/${newSlug}/market_chart/range?vs_currency=${currency}&from=${start}&to=${end}`)
           .then(res => res.data.prices)
           .then(data => formatChartData(data))
           .catch(error => console.log(error))
@@ -258,7 +260,7 @@ const resolvers = {
     // }
     news: async () => {
       return await newsData;
-    }
+    },
   },
 }
 
